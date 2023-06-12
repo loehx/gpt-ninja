@@ -2,3 +2,6 @@ out/**
 node_modules/**
 vsc-extension-quickstart.md
 **/*.map
+.API_KEY
+.DS_Store
+yarn_error.log
