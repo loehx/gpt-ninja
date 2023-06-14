@@ -9,8 +9,13 @@ export function loadConfig() {
 
   if (!apiKey) {
     vscode.window.showErrorMessage(
-      "Please configure 'vs-gpt-magic.apiKey' in your settings."
-    );
+      "Please configure 'vs-gpt-magic.apiKey' in your settings.",
+      "Open Settings"
+    ).then((buttonSelection) => {
+      if (buttonSelection === "Open Settings") {
+        vscode.commands.executeCommand("workbench.action.openSettings", "vs-gpt-magic.apiKey");
+      }
+    });
     return null;
   }
 

@@ -7,17 +7,31 @@ export default async () => {
     const document = editor.document;
     const selection = editor.selection;
 
-    const selectedText = document.getText(selection);
+    let selectedText = document.getText(selection);
+
+    // If no text is selected, retrieve the current line
+    if (!selectedText) {
+      const lineNumber = selection.active.line;
+      const line = document.lineAt(lineNumber);
+      selectedText = line.text;
+    }
 
     // Get the apiKey and rules from the configuration
     const config = vscode.workspace.getConfiguration("vs-gpt-magic");
     const apiKey = config.get<string>("apiKey", "");
-    const rules = config.get<string>("rules", "");
 
     if (!apiKey) {
       vscode.window.showErrorMessage(
         "Please set the API key in the extension settings."
       );
+      vscode.commands.executeCommand(
+        "workbench.action.openSettings",
+        "vs-gpt-magic"
+      );
+      return;
+    }
+
+    if (!selectedText) {
       return;
     }
 

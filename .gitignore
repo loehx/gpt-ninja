@@ -8,3 +8,4 @@ yarn_error.log
 dist
 .vscode
 .husky
+*.vsix

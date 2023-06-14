@@ -1,6 +1,6 @@
 {
-  "name": "vs-gpt-magic",
-  "displayName": "GPT Magic 🪄 - Harness the power of ChatGPT for coding",
+  "name": "vs-gpt-rocket",
+  "displayName": "vs-gpt-rocket 🚀 - Turbocharge your productivity with OpenAI's ChatGPT",
   "version": "1.0.0",
   "preview": true,
   "description": "A minimalistic tool to write and refactor code using OpenAI's ChatGPT",
@@ -18,7 +18,8 @@
     "build-analyze": "npm run build -- --analyze",
     "lint": "eslint -c .eslintrc.js --ext .ts ./{scripts,src,test}/**/*.ts",
     "test": "npm run compile && npm run test-compile && node ./dist/test/runTests.js",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "package": "vsce package"
   },
   "author": {
     "name": "loehx",
@@ -29,17 +30,17 @@
     {
       "url": "https://img.shields.io/badge/License-MIT-brightgreen.svg",
       "description": "License: MIT",
-      "href": "https://github.com/loehx/vs-gpt-magic/blob/master/LICENSE"
+      "href": "https://github.com/loehx/vs-gpt-rocket/blob/master/LICENSE"
     }
   ],
   "homepage": "https://loehx.com",
   "bugs": {
-    "url": "https://github.com/loehx/vs-gpt-magic/issues",
+    "url": "https://github.com/loehx/vs-gpt-rocket/issues",
     "email": "alexloehn+vs-bugs@gmail.com"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/loehx/vs-gpt-magic"
+    "url": "https://github.com/loehx/vs-gpt-rocket"
   },
   "engines": {
     "vscode": "^1.73.0",
@@ -58,28 +59,35 @@
     "artificial intelligent",
     "code-helper"
   ],
+  "activationEvents": [
+    "vs-gpt-rocket.openSettings"
+  ],
   "contributes": {
     "commands": [
       {
-        "command": "vs-gpt-magic.sendSelectionToChatGPT",
-        "title": "GPT Magic 🪄"
+        "command": "vs-gpt-rocket.sendSelectionToChatGPT",
+        "title": "GPT Rocket 🚀: Send selection to ChatGPT"
+      },
+      {
+        "command": "vs-gpt-rocket.openSettings",
+        "title": "GPT Rocket 🚀: Set API Key"
       }
     ],
     "configuration": {
       "title": "OpenAI Coder",
       "properties": {
-        "vs-gpt-magic.apiKey": {
+        "vs-gpt-rocket.apiKey": {
           "type": "string",
           "default": "",
           "description": "API key for OpenAI. Get your API key from the OpenAI website."
         },
-        "vs-gpt-magic.rules": {
+        "vs-gpt-rocket.rules": {
           "type": "string",
-          "default": "You are a helpful assistant.\nGive me all the source code.\nAdd some explaining comments to difficult parts.\nAdd a description to every function you create.\nRefactor this code.",
+          "default": "You are a helpful assistant.\nGive me back all my code, with the changes you've made.\nAdd some explaining comments to difficult parts.\nAdd a description to every function you create.\nyou can.\nRefactor this code.",
           "description": "Rules for OpenAI. Set the persona and some ground rules, which will be sent with each request.",
           "editPresentation": "multilineText"
         },
-        "vs-gpt-magic.extractCodeFromResponse": {
+        "vs-gpt-rocket.extractCodeFromResponse": {
           "type": "boolean",
           "default": false,
           "description": "Extract code from ChatGPT response."
@@ -138,6 +146,7 @@
     "yargs": "^17.6.2"
   },
   "dependencies": {
-    "axios": "^1.4.0"
+    "axios": "^1.4.0",
+    "vsce": "^2.15.0"
   }
 }

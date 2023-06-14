@@ -1,34 +1,37 @@
 import axios from "axios";
 import { Config, loadConfig } from "./config";
-
+import log from "./log";
 // Define the OpenAI API endpoint and your API key
 const API_ENDPOINT = "https://api.openai.com/v1/chat/completions";
 
 export async function sendToChatGPT(code: string) {
   const config = loadConfig()!;
 
-  console.groupCollapsed("=== REQUEST ==================");
-  console.log("=== CODE ==================");
-  console.log(code);
-  console.log("=== RULES ==================");
-  console.log(config.rules);
-  console.groupEnd();
+  // Write the console messages to the output channel
+  log.write("=== REQUEST ==================");
+  log.write("=== CODE ==================");
+  log.write(code);
+  log.write("=== RULES ==================");
+  log.write(config.rules);
+  log.write("=== API KEY ==================");
+  log.write(config.apiKey.substring(0, 5) + '...');
 
-  const result = await generateSummary(code, config);
+  let result = ''
+  await log.time("sendToChatGPT", async () => {
+    result = await fetchResponse(code, config);
+  })
   const codePart = transformChatGPTResponseToJS(
     result,
     config.extractCodeFromResponse
   );
 
-  console.groupCollapsed("================== RESULT ===");
-  console.log(result);
-  console.groupEnd();
+  log.write("================== RESULT ===");
+  log.write(result);
 
   return codePart || result;
 }
 
-// Function to generate summary using OpenAI API
-async function generateSummary(text: string, config: Config) {
+async function fetchResponse(text: string, config: Config) {
   try {
     const response = await axios.post(
       API_ENDPOINT,
