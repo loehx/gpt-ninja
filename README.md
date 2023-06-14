@@ -4,21 +4,21 @@ OpenAI Coder is a VS Code extension that leverages the power of OpenAI's GPT-4 m
 
 ## Features
 
-- `gpt-ninja.sendSelectionToChatGPT` command: This command sends the selected text in the editor to ChatGPT, gets a response, and replaces the selected text with the response from ChatGPT.
+- `vs-gpt-magic.sendSelectionToChatGPT` command: This command sends the selected text in the editor to ChatGPT, gets a response, and replaces the selected text with the response from ChatGPT.
 
 ## Usage
 
 1. Install the extension in VS Code.
 2. Configure your OpenAI API key and rules in the settings (File > Preferences > Settings).
 3. Select some text in your editor.
-4. Run the command `gpt-ninja.sendSelectionToChatGPT` from the Command Palette (`Ctrl+Shift+P` or `Cmd+Shift+P` on Mac).
+4. Run the command `vs-gpt-magic.sendSelectionToChatGPT` from the Command Palette (`Ctrl+Shift+P` or `Cmd+Shift+P` on Mac).
 
 ## Configuration
 
 You can configure the extension via the following settings:
 
-- `gpt-ninja.apiKey`: The API key for OpenAI. It's a string value and it's mandatory.
-- `gpt-ninja.rules`: The rules for the AI model. It's a multiline string, you can enter it as an array of strings where each string represents a line. It's also mandatory.
+- `vs-gpt-magic.apiKey`: The API key for OpenAI. It's a string value and it's mandatory.
+- `vs-gpt-magic.rules`: The rules for the AI model. It's a multiline string, you can enter it as an array of strings where each string represents a line. It's also mandatory.
 
 To set these values, go to your settings (`File > Preferences > Settings` or `Code > Preferences > Settings` on Mac), search for "OpenAI Coder", and enter your desired values.
 

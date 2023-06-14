@@ -10,7 +10,7 @@ export default async () => {
     const selectedText = document.getText(selection);
 
     // Get the apiKey and rules from the configuration
-    const config = vscode.workspace.getConfiguration("gpt-ninja");
+    const config = vscode.workspace.getConfiguration("vs-gpt-magic");
     const apiKey = config.get<string>("apiKey", "");
     const rules = config.get<string>("rules", "");
 
@@ -24,7 +24,7 @@ export default async () => {
     vscode.window.showInformationMessage("Asking ChatGPT ...");
 
     try {
-      const chatGPTResponse = await sendToChatGPT(selectedText, rules, apiKey);
+      const chatGPTResponse = await sendToChatGPT(selectedText);
 
       editor.edit((editBuilder) => {
         editBuilder.replace(selection, chatGPTResponse);

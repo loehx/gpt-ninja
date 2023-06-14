@@ -5,3 +5,6 @@ vsc-extension-quickstart.md
 .API_KEY
 .DS_Store
 yarn_error.log
+dist
+.vscode
+.husky

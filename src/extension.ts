@@ -2,31 +2,24 @@ import * as vscode from "vscode";
 import sendSelectionToChatGPT from "./commands/sendSelectionToChatGPT";
 
 export function activate(context: vscode.ExtensionContext) {
-  console.log('Congratulations, your extension "gpt-ninja" is now active!');
-
-  let helloWorldDisposable = vscode.commands.registerCommand(
-    "gpt-ninja.helloWorld",
-    () => {
-      vscode.window.showInformationMessage("Hello World from gpt-ninja!");
-    }
-  );
+  console.log('Congratulations, your extension "vs-gpt-magic" is now active!');
 
   let sendSelectionDisposable = vscode.commands.registerCommand(
-    "gpt-ninja.sendSelectionToChatGPT",
+    "vs-gpt-magic.sendSelectionToChatGPT",
     sendSelectionToChatGPT
   );
 
   // Check if API key is set, otherwise open settings
-  const config = vscode.workspace.getConfiguration("gpt-ninja");
+  const config = vscode.workspace.getConfiguration("vs-gpt-magic");
   const apiKey = config.get<string>("apiKey", "");
   if (!apiKey) {
     vscode.commands.executeCommand(
       "workbench.action.openSettings",
-      "gpt-ninja.apiKey"
+      "vs-gpt-magic"
     );
   }
 
-  context.subscriptions.push(helloWorldDisposable, sendSelectionDisposable);
+  context.subscriptions.push(sendSelectionDisposable);
 }
 
 export function deactivate() {}

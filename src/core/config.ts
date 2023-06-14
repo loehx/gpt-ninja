@@ -1,25 +1,20 @@
 import * as vscode from "vscode";
 
 export function loadConfig() {
-  let config = vscode.workspace.getConfiguration("gpt-ninja");
-  let apiKey = config.get("apiKey") as any;
-  let rulesArray = config.get("rules") as any;
-
-  let rules = rulesArray.join("\n");
+  let config = vscode.workspace.getConfiguration("vs-gpt-magic");
+  let apiKey = config.get<string>("apiKey");
+  let rules = config.get<string>("rules") || "You are a helpful assistant.";
+  let extractCodeFromResponse =
+    config.get<boolean>("extractCodeFromResponse") || false;
 
   if (!apiKey) {
     vscode.window.showErrorMessage(
-      "Please configure 'gpt-ninja.apiKey' in your settings."
+      "Please configure 'vs-gpt-magic.apiKey' in your settings."
     );
     return null;
   }
 
-  if (!rules) {
-    vscode.window.showErrorMessage(
-      "Please configure 'gpt-ninja.rules' in your settings."
-    );
-    return null;
-  }
-
-  return { apiKey, rules };
+  return { apiKey, rules, extractCodeFromResponse };
 }
+
+export type Config = ReturnType<typeof loadConfig>;

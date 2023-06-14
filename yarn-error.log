@@ -14,7 +14,7 @@ Platform:
   darwin arm64
 
 Trace: 
-  SyntaxError: /Users/alx/Projekte/gpt-ninja/package.json: Unexpected token ] in JSON at position 1521
+  SyntaxError: /Users/alx/Projekte/vs-gpt-magic/package.json: Unexpected token ] in JSON at position 1521
       at JSON.parse (<anonymous>)
       at /opt/homebrew/lib/node_modules/yarn/lib/cli.js:1625:59
       at Generator.next (<anonymous>)

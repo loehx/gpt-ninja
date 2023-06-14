@@ -1,22 +1,24 @@
 import axios from "axios";
+import { Config, loadConfig } from "./config";
 
 // Define the OpenAI API endpoint and your API key
 const API_ENDPOINT = "https://api.openai.com/v1/chat/completions";
 
-export async function sendToChatGPT(
-  code: string,
-  rules: string,
-  apiKey: string
-) {
+export async function sendToChatGPT(code: string) {
+  const config = loadConfig()!;
+
   console.groupCollapsed("=== REQUEST ==================");
   console.log("=== CODE ==================");
   console.log(code);
   console.log("=== RULES ==================");
-  console.log(rules);
+  console.log(config.rules);
   console.groupEnd();
 
-  const result = await generateSummary(code, rules, apiKey);
-  const codePart = transformChatGPTResponseToJS(result);
+  const result = await generateSummary(code, config);
+  const codePart = transformChatGPTResponseToJS(
+    result,
+    config.extractCodeFromResponse
+  );
 
   console.groupCollapsed("================== RESULT ===");
   console.log(result);
@@ -26,7 +28,7 @@ export async function sendToChatGPT(
 }
 
 // Function to generate summary using OpenAI API
-async function generateSummary(text: string, rules: string, apiKey: string) {
+async function generateSummary(text: string, config: Config) {
   try {
     const response = await axios.post(
       API_ENDPOINT,
@@ -35,22 +37,27 @@ async function generateSummary(text: string, rules: string, apiKey: string) {
         messages: [
           {
             role: "system",
-            content: rules,
+            content: config?.rules,
           },
           {
             role: "user",
             content: text,
           },
         ],
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         max_tokens: 2048,
         temperature: 0.8,
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         frequency_penalty: 0.0,
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         presence_penalty: 0.0,
       },
       {
         headers: {
+          // eslint-disable-next-line @typescript-eslint/naming-convention
           "Content-Type": "application/json",
-          Authorization: `Bearer ${apiKey}`,
+          // eslint-disable-next-line @typescript-eslint/naming-convention
+          Authorization: `Bearer ${config!.apiKey}`,
         },
       }
     );
@@ -72,8 +79,13 @@ async function generateSummary(text: string, rules: string, apiKey: string) {
 /**
  * Transforms a chat response from GPT to JavaScript code
  */
-function transformChatGPTResponseToJS(chatGPTResponse: string) {
-  if (!chatGPTResponse.includes("```")) return chatGPTResponse;
+function transformChatGPTResponseToJS(
+  chatGPTResponse: string,
+  extractCode: boolean
+) {
+  if (!chatGPTResponse.includes("```")) {
+    return chatGPTResponse;
+  }
 
   let inCodeBlock = false;
 
@@ -82,11 +94,14 @@ function transformChatGPTResponseToJS(chatGPTResponse: string) {
     .map((line) => {
       if (line.trim().startsWith("```")) {
         inCodeBlock = !inCodeBlock;
-        return "x";
+        return "";
+      }
+      if (extractCode && !inCodeBlock) {
+        return "";
       }
       return inCodeBlock ? line : `// ${line}`;
     })
-    .filter((l) => l !== "x" && l.trim() !== "//")
+    .filter((l) => l && l.trim() !== "//")
     .join("\n")
     .trim();
 }
