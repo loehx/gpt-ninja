@@ -1,6 +1,6 @@
 {
   "name": "vs-gpt-rocket",
-  "displayName": "vs-gpt-rocket 🚀 - Turbocharge your productivity with OpenAI's ChatGPT",
+  "displayName": "GPT Rocket 🚀",
   "version": "1.0.0",
   "preview": true,
   "description": "A minimalistic tool to write and refactor code using OpenAI's ChatGPT",
